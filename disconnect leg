@@ -1,0 +1,35 @@
+// ==UserScript==
+// @name         disconnect agent leg
+// @description  try
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @author       You
+// @match        https://max.niceincontact.com/index*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    setInterval( function() { checkLeg(); }, 12000);
+
+    function checkLeg(){
+        if(document.getElementsByClassName("current-state")[0].innerHTML=="Unavailable") {
+            var ellipsis = document.getElementsByClassName("status-text ellipsis");
+            console.log("checking status");
+            if(ellipsis[0].innerHTML!="Agent Leg - Inactive") {
+                document.getElementsByClassName("toggle-leg-button")[1].click();
+                console.log("disconnecting");
+                setTimeout(function(){
+                    if(ellipsis[0].innerHTML!="Agent Leg - Inactive") {
+                        //alert("Agent leg still inactive, reload with F5");  use code of location.reload() fails
+                        location.reload();
+                    }
+                }, 9000); //end set timeout
+            /*if(ellipsis[0].innerHTML!="Agent Leg - Inactive") {
+                location.reload();
+            }*/
+        }
+    }
+    }
+})();
